@@ -1,0 +1,19 @@
+application: hellodashboard
+version: bq
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: .*
+  script: main.application
+
+libraries:
+- name: webapp2
+  version: latest
+- name: django
+  version: latest
