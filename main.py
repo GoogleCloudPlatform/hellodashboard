@@ -51,7 +51,9 @@ class MainPage(webapp2.RequestHandler):
         self.response.write('Hello %s!' % self._get_given_name())
     # [END decorated_get]
 
+# [START application]
 application = webapp2.WSGIApplication([
     ('/', MainPage),
     (decorator.callback_path, decorator.callback_handler())
 ], debug=True)
+# [END application]
