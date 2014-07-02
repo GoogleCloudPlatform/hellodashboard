@@ -1,4 +1,5 @@
 import os
+import bqclient
 import webapp2
 import logging
 from oauth2client.appengine import oauth2decorator_from_clientsecrets
@@ -8,7 +9,6 @@ from google.appengine.api import memcache
 
 CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
 SCOPES = [
-    'email',
     'https://www.googleapis.com/auth/bigquery'
 ]
 decorator = oauth2decorator_from_clientsecrets(
@@ -16,33 +16,27 @@ decorator = oauth2decorator_from_clientsecrets(
     scope=SCOPES,
     cache=memcache)
 
+# Project ID for a project where you and your users
+#   are viewing members.  This is where the bill will be sent.
+#   During the limited availability preview, there is no bill.
+# Replace this value with the Client ID value from your project,
+#   the same numeric value you used in client_secrets.json
+DATA_PROJECT_ID = "publicdata"
+DATASET = "samples"
+TABLE = "natality"
+
 
 class MainPage(webapp2.RequestHandler):
-    def _get_given_name(self):
-        """Send a request to the UserInfo API to retrieve the user's given name.
-
-        Returns:
-          User given name as a string.
-        """
-        decorated_http = decorator.http()
-        user_info_service = build(
-            serviceName='oauth2', version='v2',
-            http=decorated_http)
-        user_info = None
-        try:
-            user_info = (
-                user_info_service.userinfo().get().execute(decorated_http))
-        except errors.HttpError, e:
-            logging.error('An error occurred: %s', e)
-        if user_info and user_info.get('given_name'):
-            return user_info.get('given_name')
-        else:
-            raise Exception('No given name found!')
-
     @decorator.oauth_required
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write('Hello %s!' % self._get_given_name())
+        bq = bqclient.BigQueryClient(decorator)
+        modTime = bq.getLastModTime(DATA_PROJECT_ID, DATASET, TABLE)
+        if modTime:
+            msg = 'Last mod time = ' + modTime
+        else:
+            msg = "Could not find last modification time.\n"
+        self.response.write('Hello, Dashboard! %s' % msg)
 
 application = webapp2.WSGIApplication([
     ('/', MainPage),
