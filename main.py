@@ -1,15 +1,16 @@
-import os
-import bqclient
-import webapp2
 import logging
-from gviz_data_table import Table
-from gviz_data_table import encode
-from django.utils import simplejson as json
-from google.appengine.ext.webapp.template import render
+import os
+
 from oauth2client.appengine import oauth2decorator_from_clientsecrets
-from googleapiclient.discovery import build
-from googleapiclient import errors
+import webapp2
+
+import bqclient
+from gviz_data_table import encode
+from gviz_data_table import Table
+
 from google.appengine.api import memcache
+from google.appengine.ext.webapp.template import render
+
 
 CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
 SCOPES = [
