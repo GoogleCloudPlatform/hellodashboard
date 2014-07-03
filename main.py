@@ -3,6 +3,7 @@ import bqclient
 import webapp2
 import logging
 from oauth2client.appengine import oauth2decorator_from_clientsecrets
+# [START cached-decor]
 from google.appengine.api import memcache
 
 CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
@@ -13,6 +14,7 @@ decorator = oauth2decorator_from_clientsecrets(
     filename=CLIENT_SECRETS,
     scope=SCOPES,
     cache=memcache)
+# [STOP cached-decor]
 
 # Project ID for a project where you and your users
 #   are viewing members.  This is where the bill will be sent.
