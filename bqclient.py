@@ -9,6 +9,7 @@ class BigQueryClient(object):
         self.decorator = decorator
         # [STOP bqcient-init]
 
+    # [START tabledata]
     def getTableData(self, project, dataset, table):
         decorated_http = self.decorator.http()
         tablesCollection = self.service.tables()
@@ -17,6 +18,7 @@ class BigQueryClient(object):
             datasetId=dataset,
             tableId=table)
         return request.execute(decorated_http)
+    # [STOP tabledata]
 
     def getLastModTime(self, project, dataset, table):
         data = self.getTableData(project, dataset, table)
