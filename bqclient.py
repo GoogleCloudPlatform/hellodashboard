@@ -1,13 +1,13 @@
 from googleapiclient.discovery import build
 
-# [START bqcient-init]
+# [START bqclient-init]
 class BigQueryClient(object):
     def __init__(self, decorator):
         """Creates the BigQuery client connection"""
         decorated_http = decorator.http()
         self.service = build('bigquery', 'v2', http=decorated_http)
         self.decorator = decorator
-        # [STOP bqcient-init]
+    # [STOP bqcient-init]
 
     # [START tabledata]
     def getTableData(self, project, dataset, table):
