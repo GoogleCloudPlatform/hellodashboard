@@ -3,8 +3,6 @@ import bqclient
 import webapp2
 import logging
 from oauth2client.appengine import oauth2decorator_from_clientsecrets
-from googleapiclient.discovery import build
-from googleapiclient import errors
 from google.appengine.api import memcache
 
 CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
