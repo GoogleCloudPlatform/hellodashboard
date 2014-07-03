@@ -40,6 +40,7 @@ mem = memcache.Client()
 
 
 class MainPage(webapp2.RequestHandler):
+    # [START bq2geo]
     def _bq2geo(self, bqdata):
         # geodata output for region maps must be in the format region, value.
         # Assume the query output is in this format, get names from schema.
@@ -54,7 +55,8 @@ class MainPage(webapp2.RequestHandler):
         logging.info("FINAL GEODATA---")
         logging.info(table)
         return encode(table)
-
+    # [END bq2geo]
+    
     @decorator.oauth_required
     def get(self):
         data = mem.get('natality')
