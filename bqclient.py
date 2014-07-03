@@ -7,7 +7,7 @@ class BigQueryClient(object):
         decorated_http = decorator.http()
         self.service = build('bigquery', 'v2', http=decorated_http)
         self.decorator = decorator
-    # [STOP bqclient-init]
+# [STOP bqclient-init]
 
     # [START tabledata]
     def getTableData(self, project, dataset, table):
